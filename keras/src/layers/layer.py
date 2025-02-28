@@ -1158,7 +1158,7 @@ class Layer(BackendLayer, Operation, KerasSaveable):
     def _get_regularization_losses(self):
         weight_regularization_losses = []
         for variable in self.trainable_weights:
-            if variable.regularizer is None:
+            if not hasattr(variable, "regularizer") or variable.regularizer is None:
                 continue
             if backend.in_stateless_scope() and not in_symbolic_scope():
                 # If in symbolic scope, we might get `None` from
